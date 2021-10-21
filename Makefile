@@ -1,7 +1,15 @@
-GOCMD=$(if $(shell which richgo),richgo,go)
-
 test:
-	$(GOCMD) test -cover ./...
+	go test -race -cover ./...
+.PHONY: test
 
-test-watch:
-	reflex -s --decoration=none -r \.go$$ -- make test
+audit:
+	go list -json -m all | nancy sleuth
+.PHONY: audit
+
+build:
+	go build ./...
+.PHONY: build
+
+.PHONY: lint
+lint:
+	exit
